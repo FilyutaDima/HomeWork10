@@ -24,6 +24,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var alarmSwitch: UISwitch!
+    @IBOutlet weak var switcher: UISwitch!
+    @IBOutlet weak var alarmVolume: UILabel!
     
     @IBAction func setVolumeWithSlider(_ sender: Any) {
         let value = volumeSlider.value
@@ -33,9 +35,10 @@ class ViewController: UIViewController {
         volumeLabelTxtFld.text = roundedValue
         
     }
-    @IBAction func setVolumeWithTetFld(_ sender: Any) {
-        let value =  Float(volumeLabelTxtFld.text ?? "5.0") ?? 5.0
-        volumeLevelLabel.text = volumeLabelTxtFld.text
+    
+    @IBAction func setVolumeWithTxtFld(_ sender: Any) {
+        let value =  Float(volumeLabelTxtFld.text ?? "0.0") ?? 0.0
+        volumeLevelLabel.text = String(value)
         progressView.progress = value / 10
         volumeSlider.value = value
     }
@@ -50,17 +53,22 @@ class ViewController: UIViewController {
     
     @IBAction func setThisTimePressed(_ sender: Any) {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "hh:mm"
+        dateFormatter.dateFormat = "HH:mm"
         let time = dateFormatter.string(from: datePicker.date)
         timeLabel.text = time
+        alarmVolume.text = volumeLabelTxtFld.text
     }
     
     @IBAction func deleteAlarm(_ sender: Any) {
         timeLabel.text = ""
+        switcher.isOn = false
+        timeLabel.backgroundColor = .gray
+        alarmVolume.text = "0.0"
     }
     
     private func initView() {
-        timeLabel.backgroundColor = .blue
+        timeLabel.backgroundColor = .gray
+        volumeLabelTxtFld.text = "5.0"
     }
 }
 
